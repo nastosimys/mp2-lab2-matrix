@@ -23,7 +23,7 @@ protected:
   size_t sz;
   T* pMem;
 public:
-  TDynamicVector(size_t size = 1) : sz(size) //++
+  TDynamicVector(size_t size = 1) : sz(size) 
   {
     if (sz == 0)
       throw out_of_range("Vector size should be greater than zero");
@@ -31,29 +31,29 @@ public:
         throw ("ERROR");
     pMem = new T[sz]();// {}; // У типа T д.б. констуктор по умолчанию
   }
-  TDynamicVector(T* arr, size_t s) : sz(s) //++
+  TDynamicVector(T* arr, size_t s) : sz(s)
   {
     assert(arr != nullptr && "TDynamicVector ctor requires non-nullptr arg");
     pMem = new T[sz];
     std::copy(arr, arr + sz, pMem);
   }
-  TDynamicVector(const TDynamicVector& v) //++
+  TDynamicVector(const TDynamicVector& v) 
   {
       sz = v.sz;
       pMem = new T[sz];
       std::copy(v.pMem, v.pMem + sz, pMem);
   }
-  TDynamicVector(TDynamicVector&& v) noexcept //+?
+  TDynamicVector(TDynamicVector&& v) noexcept 
   {
       pMem = nullptr;
       swap(*this, v);
   }
-  ~TDynamicVector() //++
+  ~TDynamicVector() 
   {
       delete[] pMem;
   }
 
-  TDynamicVector& operator=(const TDynamicVector& v) //++
+  TDynamicVector& operator=(const TDynamicVector& v)
   {
       if (this == &v)
           return *this;
@@ -72,7 +72,7 @@ public:
   //    swap(*this, tmp);
   //    return *this;
   }
-  TDynamicVector& operator=(TDynamicVector&& v) noexcept //+?
+  TDynamicVector& operator=(TDynamicVector&& v) noexcept
   {
       swap(*this, v);
       return *this;
@@ -81,26 +81,26 @@ public:
   size_t size() const noexcept { return sz; }
 
   // индексация 
-  T& operator[](size_t ind) //++
+  T& operator[](size_t ind) 
   {
       if (ind < 0 || ind >= sz)
           throw "ERROR";
       return pMem[ind];
   }
-  const T& operator[](size_t ind) const //++
+  const T& operator[](size_t ind) const 
   {
       if (ind < 0 || ind >= sz)
           throw "ERROR";
       return pMem[ind];
   }
   // индексация с контролем
-  T& at(size_t ind) //++
+  T& at(size_t ind) 
   {
       if (ind < 0 || ind >= sz)
           throw "ERROR";
       return pMem[ind];
   }
-  const T& at(size_t ind) const //++
+  const T& at(size_t ind) const 
   {
       if (ind < 0 || ind >= sz)
           throw "ERROR";
@@ -108,10 +108,8 @@ public:
   }
 
   // сравнение 
-  bool operator==(const TDynamicVector& v) const noexcept //+?
+  bool operator==(const TDynamicVector& v) const noexcept 
   {
-   //   if (this == &v)
-   //       return true;
       if (sz != v.sz)
           return false;
       for (size_t i = 0; i < sz; i++) {
@@ -120,10 +118,8 @@ public:
       }
       return true;
   }
-  bool operator!=(const TDynamicVector& v) const noexcept //+?
+  bool operator!=(const TDynamicVector& v) const noexcept 
   {
-   //   if (this == &v)
-   //       return false;
       if (sz != v.sz)
           return true;
       for (size_t i = 0; i < sz; i++) {
@@ -134,21 +130,21 @@ public:
   }
 
   // скалярные операции 
-  TDynamicVector operator+(T val) //++
+  TDynamicVector operator+(T val) 
   {
       TDynamicVector tmp(sz);
       for (size_t i = 0; i < sz; i++)
           tmp.pMem[i] = pMem[i] + val;
       return tmp;
   }
-  TDynamicVector operator-(T val) //++
+  TDynamicVector operator-(T val) 
   {
       TDynamicVector tmp(sz);
       for (size_t i = 0; i < sz; i++)
           tmp.pMem[i] = pMem[i] - val;
       return tmp;
   }
-  TDynamicVector operator*(T val) //++
+  TDynamicVector operator*(T val) 
   {
       TDynamicVector tmp(sz);
       for (size_t i = 0; i < sz; i++)
@@ -157,7 +153,7 @@ public:
   }
 
   // векторные операции
-  TDynamicVector operator+(const TDynamicVector& v) //++
+  TDynamicVector operator+(const TDynamicVector& v) 
   {
       if (sz != v.sz)
           throw ("ERROR");
@@ -166,7 +162,7 @@ public:
           tmp.pMem[i] = pMem[i] + v.pMem[i];
       return tmp;
   }
-  TDynamicVector operator-(const TDynamicVector& v) //++
+  TDynamicVector operator-(const TDynamicVector& v) 
   {
       if (sz != v.sz)
           throw ("ERROR");
@@ -175,7 +171,7 @@ public:
           tmp.pMem[i] = pMem[i] - v.pMem[i];
       return tmp;
   }
-  T operator*(const TDynamicVector& v) noexcept(noexcept(T())) //++
+  T operator*(const TDynamicVector& v) noexcept(noexcept(T())) 
   {
       if (sz != v.sz)
           throw ("ERROR");
@@ -185,20 +181,20 @@ public:
       return tmp;
   }
 
-  friend void swap(TDynamicVector& lhs, TDynamicVector& rhs) noexcept //++
+  friend void swap(TDynamicVector& lhs, TDynamicVector& rhs) noexcept
   {
     std::swap(lhs.sz, rhs.sz);
     std::swap(lhs.pMem, rhs.pMem);
   }
 
   // ввод/вывод
-  friend istream& operator>>(istream& istr, TDynamicVector& v) //++
+  friend istream& operator>>(istream& istr, TDynamicVector& v) 
   {
     for (size_t i = 0; i < v.sz; i++)
       istr >> v.pMem[i]; // требуется оператор>> для типа T
     return istr;
   }
-  friend ostream& operator<<(ostream& ostr, const TDynamicVector& v) //++
+  friend ostream& operator<<(ostream& ostr, const TDynamicVector& v) 
   {
     for (size_t i = 0; i < v.sz; i++)
       ostr << v.pMem[i] << ' '; // требуется оператор<< для типа T
