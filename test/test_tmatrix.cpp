@@ -158,4 +158,3 @@ TEST(TDynamicMatrix, cant_subtract_matrixes_with_not_equal_size)
 	TDynamicMatrix<int> m2(3);
 	ASSERT_ANY_THROW(m1 - m2);
 }
-
